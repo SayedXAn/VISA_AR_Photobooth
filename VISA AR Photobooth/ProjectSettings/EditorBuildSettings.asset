@@ -6,6 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Final.unity
+    path: Assets/Scenes/VISA AR.unity
     guid: 8ecee0df410ae5646993ecc0b8e356d6
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

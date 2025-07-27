@@ -29,6 +29,9 @@ public class ScreenshotHandler : MonoBehaviour
     public Image[] individualPlaceHolders;
     public Image[] facePlaceHolders;
     public Image testImage;
+
+    public string latestFile = "";
+    public Image prevImg;
     void LateUpdate()
     {        
         //if (Input.GetKeyDown(KeyCode.Space))
@@ -166,29 +169,48 @@ public class ScreenshotHandler : MonoBehaviour
     //TakeSCR Ends here
 
 
-
-
-    public IEnumerator TakeSCR_Coroutine()
+    public void CheckIfNewPhoto()
     {
-        // Load the latest photo sent by phone into Unity
         string directoryPath = Application.dataPath + "/../Photos";
         if (!Directory.Exists(directoryPath))
         {
             Debug.LogError("Photos directory not found: " + directoryPath);
-            yield break;
+            return;
         }
 
         // Find the latest image file
-        string latestFile = Directory.GetFiles(directoryPath, "*.jpg")
-                                     .Concat(Directory.GetFiles(directoryPath, "*.png"))
-                                     .OrderByDescending(File.GetCreationTime)
-                                     .FirstOrDefault();
+        latestFile = Directory.GetFiles(directoryPath, "*.jpg")
+                              .Concat(Directory.GetFiles(directoryPath, "*.png"))
+                              .OrderByDescending(File.GetCreationTime)
+                              .FirstOrDefault();
 
         if (string.IsNullOrEmpty(latestFile))
         {
             Debug.LogError("No photo found to process.");
-            yield break;
+            return;
         }
+        else
+        {
+            byte[] bytes = File.ReadAllBytes(latestFile);
+
+            // Load texture from bytes
+            screenShot = new Texture2D(2, 2); // Let it auto-resize
+            screenShot.LoadImage(bytes);
+
+            // Create a sprite from the texture
+            Sprite sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), new Vector2(0.5f, 0.5f));
+            prevImg.sprite = sprite;
+            prevImg.type = Image.Type.Simple;
+            prevImg.preserveAspect = true;
+            shutter.SetActive(true);
+
+        }
+    }
+
+    public IEnumerator TakeSCR_Coroutine()
+    {
+        // Load the latest photo sent by phone into Unity
+        
 
         // Load image as Texture2D
         byte[] bytes = File.ReadAllBytes(latestFile);
