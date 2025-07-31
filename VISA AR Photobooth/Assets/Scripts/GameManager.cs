@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
         {
             Display.displays[i].Activate();
         }
-        Logo.gameObject.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+        Logo.gameObject.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
         Logo.gameObject.transform.DOScale(Vector3.one, 3f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
     }
 }
