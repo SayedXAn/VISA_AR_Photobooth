@@ -24,6 +24,7 @@ public class ScreenshotHandler : MonoBehaviour
     public Text imageUrlText;
     public GameObject qrQuad;
     public GameObject finishPanel;
+    
 
     public Image[] individualPlaceHolders;
     //public Image[] facePlaceHolders;
@@ -31,6 +32,8 @@ public class ScreenshotHandler : MonoBehaviour
 
     public string latestFile = "";
     public Image prevImg;
+
+    
     void LateUpdate()
     {        
         //if (Input.GetKeyDown(KeyCode.Space))

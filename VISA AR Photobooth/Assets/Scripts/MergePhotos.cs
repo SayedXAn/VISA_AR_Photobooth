@@ -147,7 +147,7 @@ public class MergePhotos : MonoBehaviour
             form.AddBinaryData("images", allImagesBytes[i], imageName, "image/png");
         }
         form.AddField("title", "VISA");
-        form.AddField("description", "Test description");
+        form.AddField("description", "Scroll down to all photos");
 
         //form.AddBinaryData("image", bytes, imageName, "image/png");
         Debug.Log("Sending............");
