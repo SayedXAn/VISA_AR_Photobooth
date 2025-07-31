@@ -12,8 +12,8 @@ using System.Net.Sockets;
 public class AIConnector : MonoBehaviour
 {
     public static AIConnector instance;
-    public GameObject nnpanel,nnpanel2, ailogo, ailogo2;
-    public Text nnmsg, nnmsg2;
+    //public GameObject nnpanel,nnpanel2, ailogo, ailogo2;
+    //public Text nnmsg, nnmsg2;
     struct ipdata{
         public string ip;
     }
@@ -27,30 +27,14 @@ private void Awake()
             //KillProcess();
             StartAI();
             StartCoroutine(SendIPtoServer());
-            AnimateLogo();
+            //AnimateLogo();
         }
         else
         {
             Destroy(gameObject);
         }        
     }
-    void AnimateLogo()
-    {
-        AnimateLogo2();
-        ailogo.transform.DOScale(.8f, 1.5f).OnComplete(() => {
-            ailogo.transform.DOScale(1.3f, 1.5f).OnComplete(() => {
-                AnimateLogo();
-            });
-        });
-    }
-    void AnimateLogo2()
-    {
-        ailogo2.transform.DOScale(.8f, 1.5f).OnComplete(() => {
-            ailogo2.transform.DOScale(1.3f, 1.5f).OnComplete(() => {
-                //AnimateLogo2();
-            });
-        });
-    }
+    
     void StartAI()
     {
         try
@@ -60,8 +44,8 @@ private void Awake()
             ////p.StartInfo.RedirectStandardOutput = true;
             //p.StartInfo.FileName = ".\\AI\\nn.exe";
             //p.Start();
-            nnpanel.SetActive(true);
-            nnmsg2.text = nnmsg.text = "Nerual Network initializing...";
+            //nnpanel.SetActive(true);
+            //nnmsg2.text = nnmsg.text = "Nerual Network initializing...";
             // string nnPath=  Application.streamingAssetsPath + "/nn_koly/nn_koly.exe";
             // UnityEngine.Debug.Log(nnPath);
             // Process process = Process.Start(nnPath);
@@ -75,7 +59,7 @@ private void Awake()
     IEnumerator ShowNNState()
     {
         // writes...................connecting 
-        nnmsg.text = "Trying to connect with Neural Net...";
+        //nnmsg.text = "Trying to connect with Neural Net...";
         UnityWebRequest webRequest =  UnityWebRequest.Get("http://127.0.0.1:6969/connect");
         yield return webRequest.SendWebRequest();
         if (!webRequest.isNetworkError)
@@ -83,20 +67,7 @@ private void Awake()
             UnityEngine.Debug.Log(webRequest.downloadHandler.text);            
             var jsonObj = JsonMapper.ToObject(webRequest.downloadHandler.text);            
             string msg = jsonObj["msg"].ToString();
-            if(msg == "connected")
-            {
-                nnmsg2.text = nnmsg.text = "Connected to the Neural Net";
-                yield return new WaitForSeconds(2);
-                nnmsg2.text = nnmsg.text = "Starting Robi Next Gen Camera...";
-                yield return new WaitForSeconds(2);
-                
-                nnpanel.transform.DOScale(0f, .5f).OnComplete(() => {
-                    gameObject.SetActive(false);
-                });
-                nnpanel2.transform.DOScale(0f, .5f).OnComplete(() => {
-                    //gameObject.SetActive(false);
-                });
-            }
+            
         }
         else
         {

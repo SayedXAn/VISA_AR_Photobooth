@@ -15,23 +15,10 @@ public class UIManager : MonoBehaviour
     public GameObject chooseFramesPanel;
     public GameObject finalPanel;
 
-    public GameObject nameHandlePlaceholder;
-    public Text nameHandleText;
-    public InputField nameIF;
     public float placeLen = 0.5f;
     void Start()
     {
         instance = this;
-    }
-
-    private void Update()
-    {
-        nameHandleText.text = nameIF.text;
-        if(nameHandlePlaceholder.transform.localScale.x <= 4f || nameHandleText.text.Length < 20)
-        {
-            nameHandlePlaceholder.transform.DOScaleX(placeLen * nameHandleText.text.Length, .1f);
-        }
-        
     }
 
     public void OnRetakeButton()

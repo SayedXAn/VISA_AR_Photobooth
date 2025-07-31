@@ -17,64 +17,60 @@ public class LCExampleScript : MonoBehaviour
     {
         texture2D = GetComponent<MergePhotos>().bytes;
 
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(texture2D); // Load image from byte array
+        Texture2D originalTexture = new Texture2D(2, 2);
+        originalTexture.LoadImage(texture2D); // Load original image
 
-        // Step 2: Create a new texture with the same size as the original texture
-        int width = texture.width;
-        int height = texture.height;
-        Texture2D newTexture = new Texture2D(width, height);
+        int fullWidth = 1200;
+        int fullHeight = 1800;
+        int sidePadding = 10;
+        int topPadding = 40;
+        int bottomPadding = 10;
 
-        // Step 3: Set all pixels of the new texture to white (background color)
-        Color[] whitePixels = new Color[width * height];
-        for (int i = 0; i < whitePixels.Length; i++)
+        // Scale image to 90% to leave more padding
+        float scale = 0.6f;
+        int scaledWidth = (int)(fullWidth * scale);
+        int scaledHeight = (int)(fullHeight * scale);
+
+        // Step 1: Resize original image to scaled dimensions
+        Texture2D resizedTexture = new Texture2D(scaledWidth, scaledHeight);
+        for (int y = 0; y < scaledHeight; y++)
         {
-            whitePixels[i] = Color.white;
-        }
-        newTexture.SetPixels(whitePixels);
-
-        // Step 4: Resize the original image to fit into the top-left 1/4 of the new texture
-        int quarterWidth = (int)(width / 2.5f);
-        int quarterHeight = (int)(height / 2.5f);
-
-        // Resize the original texture to fit in the 1/4th space (resize operation)
-        Texture2D resizedTexture = new Texture2D(quarterWidth, quarterHeight);
-        for (int y = 0; y < quarterHeight; y++)
-        {
-            for (int x = 0; x < quarterWidth; x++)
+            for (int x = 0; x < scaledWidth; x++)
             {
-                // Sample the original texture, scaled down to fit into the quarter space
-                float u = (float)x / (quarterWidth);
-                float v = (float)y / (quarterHeight);
-                resizedTexture.SetPixel(x, y, texture.GetPixelBilinear(u, v));
+                float u = (float)x / scaledWidth;
+                float v = (float)y / scaledHeight;
+                resizedTexture.SetPixel(x, y, originalTexture.GetPixelBilinear(u, v));
             }
         }
-
-        // Apply the resized texture
         resizedTexture.Apply();
 
-        // Step 5: Place the resized texture into the new texture (top-left corner)
-        for (int y = 0; y < quarterHeight; y++)
+        // Step 2: Create final canvas with white background and padding
+        int finalWidth = scaledWidth + sidePadding * 2;
+        int finalHeight = scaledHeight + topPadding + bottomPadding;
+
+        Texture2D finalTexture = new Texture2D(finalWidth, finalHeight);
+        Color[] whitePixels = new Color[finalWidth * finalHeight];
+        for (int i = 0; i < whitePixels.Length; i++)
+            whitePixels[i] = Color.white;
+        finalTexture.SetPixels(whitePixels);
+
+        // Step 3: Paste scaled image into the center area
+        for (int y = 0; y < scaledHeight; y++)
         {
-            for (int x = 0; x < quarterWidth; x++)
+            for (int x = 0; x < scaledWidth; x++)
             {
-                // Copy the resized pixel to the top-left corner of the new texture
-                newTexture.SetPixel(x+25, height - quarterHeight + y - 285, resizedTexture.GetPixel(x, y));
+                Color pixel = resizedTexture.GetPixel(x, y);
+                finalTexture.SetPixel(x + sidePadding, y + bottomPadding, pixel);
             }
         }
+        finalTexture.Apply();
 
-        // Step 6: Apply the changes to the new texture
-        newTexture.Apply();
-
-        // Step 7: Convert the texture back to a byte array (PNG format)
-        byte[] modifiedTextureBytes = newTexture.EncodeToPNG();
-
-        //string filePath = Application.persistentDataPath;
-        //System.IO.File.WriteAllBytes(filePath + "/" + "cropped.png", modifiedTextureBytes);
-        //Debug.Log(filePath);
-
-        Print.PrintTexture(modifiedTextureBytes, copies, printerName);
+        // Step 4: Encode and print
+        byte[] finalImageBytes = finalTexture.EncodeToPNG();
+        Print.PrintTexture(finalImageBytes, copies, printerName);
     }
+
+
 
     public void printByPathButton()
     {
