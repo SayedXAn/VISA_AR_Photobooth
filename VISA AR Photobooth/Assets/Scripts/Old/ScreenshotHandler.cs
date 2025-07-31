@@ -43,10 +43,7 @@ public class ScreenshotHandler : MonoBehaviour
         }
     }
 
-    public void TakeSCR()
-    {
-        StartCoroutine(TakeSCR_Coroutine());
-    }
+    
 
 
     public void CheckIfNewPhoto()
@@ -87,55 +84,18 @@ public class ScreenshotHandler : MonoBehaviour
         }
     }
 
-    public IEnumerator TakeSCR_Coroutine()
+    public void TakeSCR_Coroutine()
     {
-        // Load the latest photo sent by phone into Unity
-        
-
-        // Load image as Texture2D
         byte[] bytes = File.ReadAllBytes(latestFile);
         screenShot = new Texture2D(2, 2); // Auto-resize
         screenShot.LoadImage(bytes);
 
-        // Flash effect (optional)
-        shutter.transform.DOScale(.5f, .25f).OnComplete(() =>
+        foreach (Image img in individualPlaceHolders)
         {
-            shutter.transform.DOScale(1f, .25f).OnComplete(() =>
-            {
-                //StartCoroutine(nameof(ShowPreview));
-            });
-        });
-
-        // Prepare upload
-        WWWForm form = new WWWForm();
-        string fileName = Path.GetFileName(latestFile);
-        form.AddBinaryData("image", bytes, fileName, "image/png");
-
-        UnityWebRequest request = UnityWebRequest.Post("http://127.0.0.1:6969/removebg", form);
-        yield return request.SendWebRequest();
-
-        if (!request.isNetworkError && !request.isHttpError)
-        {
-            Debug.Log("Received processed image");
-            Texture2D texture2D = new Texture2D(2, 2);
-            texture2D.LoadImage(request.downloadHandler.data);
-            transMat.mainTexture = texture2D;
-
-            // Update preview images
-            foreach (Image img in individualPlaceHolders)
-            {
-                img.gameObject.SetActive(true);
-                img.sprite = Sprite.Create(texture2D, new Rect(0, 0, texture2D.width, texture2D.height), Vector2.zero);
-                img.preserveAspect = true;
-                img.type = Image.Type.Simple;
-            }
-
-           
-        }
-        else
-        {
-            Debug.Log(request.error);
-            NetworkError();
+            img.gameObject.SetActive(true);
+            img.sprite = Sprite.Create(screenShot, new Rect(0, 0, screenShot.width, screenShot.height), Vector2.zero);
+            img.preserveAspect = true;
+            img.type = Image.Type.Simple;
         }
 
         UIManager.instance.lowerPanel.SetActive(false);

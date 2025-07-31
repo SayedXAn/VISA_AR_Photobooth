@@ -1675,7 +1675,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 788546047}
         m_TargetAssemblyTypeName: ScreenshotHandler, Assembly-CSharp
-        m_MethodName: TakeSCR
+        m_MethodName: TakeSCR_Coroutine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
