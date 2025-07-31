@@ -21,6 +21,7 @@ public class MergePhotos : MonoBehaviour
     public GameObject finalScreenShotCamera;
     public GameObject finalScreenshotCanvas;
     public GameObject finalPanel;
+    public GameObject loadingPanel;
     int selectedFrameIndex;
     private int pendingEncodes = 0;
 
@@ -48,6 +49,7 @@ public class MergePhotos : MonoBehaviour
     {
         UIManager.instance.defaultBG.SetActive(true);
         selectedFrameIndex = index;
+        loadingPanel.SetActive(true);
         StartCoroutine(TakeScreenShot());
     }
 
@@ -179,6 +181,7 @@ public class MergePhotos : MonoBehaviour
                 //imageUrlText.text = url;
                 QR_DisplayQuad.GetComponent<EasyQRCode>().textToEncode = url;
                 //call to generate QRCode here
+                loadingPanel.SetActive(false);
                 QR_DisplayQuad.SetActive(true);
                 finalPanel.SetActive(true);
             }
