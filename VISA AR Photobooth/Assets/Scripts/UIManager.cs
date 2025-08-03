@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject postCapturePanel;
     public GameObject chooseFramesPanel;
     public GameObject finalPanel;
+    public GameObject prevImage;
 
     public float placeLen = 0.5f;
     void Start()
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
     {
         postCapturePanel.SetActive(false);
         chooseFramesPanel.SetActive(true);
+        prevImage.SetActive(false);
         //GetComponent<MergePhotos>().DisplayImages();
     }
 }

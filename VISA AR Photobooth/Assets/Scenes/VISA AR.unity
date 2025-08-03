@@ -1467,6 +1467,7 @@ RectTransform:
   m_Children:
   - {fileID: 1902201219}
   - {fileID: 600519708}
+  - {fileID: 1693455028}
   - {fileID: 865243979}
   - {fileID: 1739035870}
   - {fileID: 1540638340}
@@ -2266,6 +2267,7 @@ MonoBehaviour:
   postCapturePanel: {fileID: 1739035869}
   chooseFramesPanel: {fileID: 1540638339}
   finalPanel: {fileID: 978144979}
+  prevImage: {fileID: 1693455027}
   placeLen: 0.5
 --- !u!114 &788546051
 MonoBehaviour:
@@ -2456,7 +2458,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1693455028}
   - {fileID: 596777297}
   - {fileID: 773054704}
   m_Father: {fileID: 536057970}
@@ -4884,7 +4885,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 865243979}
+  m_Father: {fileID: 536057970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -51,7 +51,8 @@ public class ScreenshotHandler : MonoBehaviour
 
     public void CheckIfNewPhoto()
     {
-        string directoryPath = Application.dataPath + "/../Photos";
+        //string directoryPath = Application.dataPath + "/../Builds/VISA AR Photobooth/Photos";
+        string directoryPath = "C:/CUP/VISA_AR_Photobooth/VISA AR Photobooth/Build/VISA AR Photobooth/Photos";
         if (!Directory.Exists(directoryPath))
         {
             Debug.LogError("Photos directory not found: " + directoryPath);
