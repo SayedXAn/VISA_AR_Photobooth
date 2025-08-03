@@ -7,7 +7,18 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<UIManager>();
+            }
+            return _instance;
+        }
+    }
+    private static UIManager _instance;
 
     public GameObject defaultBG;
     public GameObject lowerPanel; // initial panel
@@ -17,10 +28,10 @@ public class UIManager : MonoBehaviour
     public GameObject prevImage;
 
     public float placeLen = 0.5f;
-    void Start()
+    /*void Start()
     {
         instance = this;
-    }
+    }*/
 
     public void OnRetakeButton()
     {

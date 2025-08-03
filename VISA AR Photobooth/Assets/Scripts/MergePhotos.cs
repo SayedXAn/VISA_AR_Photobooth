@@ -28,14 +28,14 @@ public class MergePhotos : MonoBehaviour
     //for screenshots
     private int resWidth = 1080; //500
     private int resHeight = 1920; //750
-    private Texture2D screenShot;
+    [System.NonSerialized] private Texture2D screenShot;
     Camera scrCamera;
-    public byte[] bytes;
+    [System.NonSerialized] public byte[] bytes;
     private const string API_KEY = "2ea2ced6be1c4867a94df3a6db09124e";
 
     public GameObject[] imageSlots;
 
-    List<byte[]> allImagesBytes = new List<byte[]>();
+    [System.NonSerialized] List<byte[]> allImagesBytes = new List<byte[]>();
 
 
     void Start()
@@ -47,7 +47,7 @@ public class MergePhotos : MonoBehaviour
 
     public void OnFrameSelected(int index)
     {
-        UIManager.instance.defaultBG.SetActive(true);
+        UIManager.Instance.defaultBG.SetActive(true);
         selectedFrameIndex = index;
         loadingPanel.SetActive(true);
         StartCoroutine(TakeScreenShot());
@@ -68,7 +68,7 @@ public class MergePhotos : MonoBehaviour
         finalScreenshotCanvas.SetActive(true);
         finalScreenShotCamera.SetActive(true);
 
-        UIManager.instance.chooseFramesPanel.SetActive(false);
+        UIManager.Instance.chooseFramesPanel.SetActive(false);
 
         yield return new WaitForEndOfFrame();
 
@@ -119,7 +119,7 @@ public class MergePhotos : MonoBehaviour
             finalScreenshotCanvas.SetActive(true);
             finalScreenShotCamera.SetActive(true);
 
-            UIManager.instance.chooseFramesPanel.SetActive(false);
+            UIManager.Instance.chooseFramesPanel.SetActive(false);
 
             yield return new WaitForEndOfFrame();
 
@@ -179,7 +179,7 @@ public class MergePhotos : MonoBehaviour
             {
                 string url = response.link;
                 //imageUrlText.text = url;
-                QR_DisplayQuad.GetComponent<EasyQRCode>().textToEncode = url;
+                QR_DisplayQuad.GetComponent<EasyQRCode>().SetQRText(url);
                 //call to generate QRCode here
                 loadingPanel.SetActive(false);
                 QR_DisplayQuad.SetActive(true);
@@ -193,7 +193,7 @@ public class MergePhotos : MonoBehaviour
             NetworkError();
         }
 
-        UIManager.instance.finalPanel.SetActive(true);
+        UIManager.Instance.finalPanel.SetActive(true);
     }
 
     void NetworkError()

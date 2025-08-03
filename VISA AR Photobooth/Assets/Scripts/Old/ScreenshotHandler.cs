@@ -11,7 +11,7 @@ public class ScreenshotHandler : MonoBehaviour
 {
     private int resWidth = 1080; //500
     private int resHeight = 1920; //750
-    Texture2D screenShot;
+    [System.NonSerialized] Texture2D screenShot;
     [SerializeField] GameObject screenShotPanel, shutter;
     private bool isRealTime;
     //[SerializeField] Toggle realtime;
@@ -30,7 +30,7 @@ public class ScreenshotHandler : MonoBehaviour
     //public Image[] facePlaceHolders;
     public Image testImage;
 
-    public string latestFile = "";
+    [System.NonSerialized] public string latestFile = "";
     public Image prevImg;
 
     
@@ -52,7 +52,8 @@ public class ScreenshotHandler : MonoBehaviour
     public void CheckIfNewPhoto()
     {
         //string directoryPath = Application.dataPath + "/../Builds/VISA AR Photobooth/Photos";
-        string directoryPath = "C:/CUP/VISA_AR_Photobooth/VISA AR Photobooth/Build/VISA AR Photobooth/Photos";
+        //string directoryPath = "C:/CUP/VISA_AR_Photobooth/VISA AR Photobooth/Build/VISA AR Photobooth/Photos";
+        string directoryPath = "C:\\Users\\iamsh\\Documents\\GitHub\\VISA_AR_Photobooth\\VISA AR Photobooth\\Photos";
         if (!Directory.Exists(directoryPath))
         {
             Debug.LogError("Photos directory not found: " + directoryPath);
@@ -102,8 +103,8 @@ public class ScreenshotHandler : MonoBehaviour
             img.type = Image.Type.Simple;
         }
 
-        UIManager.instance.lowerPanel.SetActive(false);
-        UIManager.instance.postCapturePanel.SetActive(true);
+        UIManager.Instance.lowerPanel.SetActive(false);
+        UIManager.Instance.postCapturePanel.SetActive(true);
     }
     
     public void ApplicationQuit()
